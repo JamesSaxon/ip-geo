@@ -1,4 +1,4 @@
-#!/usr/bin/env python 
+#!/usr/bin/env python3
 
 import os, sys
 
@@ -6,19 +6,20 @@ import pandas as pd
 
 from ipaddress import ip_address, ip_network
 
-from tqdm import tqdm
-
 import gzip, boto3
 from io import BytesIO, TextIOWrapper
 
-from netrc import netrc
-user, acct, passwd = netrc().authenticators("aws-unacast")
+if "AWS_ACCESS_KEY_ID" not in os.environ: 
 
-os.environ["AWS_ACCESS_KEY_ID"]     = user
-os.environ["AWS_SECRET_ACCESS_KEY"] = passwd
+    from netrc import netrc
+    user, acct, passwd = netrc().authenticators("aws-unacast")
+    
+    os.environ["AWS_ACCESS_KEY_ID"]     = user
+    os.environ["AWS_SECRET_ACCESS_KEY"] = passwd
+
 
 import argparse
-parser = argparse.ArgumentParser(description='Label points in a video.')
+parser = argparse.argumentparser(description='label points in a video.')
 parser.add_argument("-s", "--skip", type = int, default = 0)
 parser.add_argument("-n", "--nfiles", type = int, default = 10)
 args = parser.parse_args()
@@ -28,9 +29,9 @@ def subnet(x):
 
     x = str(x)
 
-    if "." in x:   return str(ip_network(x + "/24", strict = False)).replace(".0/24", ".0")
-    elif ":" in x: return str(ip_network(x + "/48", strict = False)).replace("/48", "").lower()
-    return None
+    if "." in x:   return str(ip_network(x + "/24", strict = false)).replace(".0/24", ".0")
+    elif ":" in x: return str(ip_network(x + "/48", strict = false)).replace("/48", "").lower()
+    return none
 
 
 
@@ -41,7 +42,9 @@ s3_input_file   = s3_input_sample + s3_input_data
 def get_unique_subnets(offset, nfiles):
 
     unique_net = set()
-    for x in tqdm(range(offset, offset + nfiles)):
+    for x in range(offset, offset + nfiles):
+
+        print(x, end = " ", flush = true)
     
         df = pd.read_csv(s3_input_file.format(x))
         unique_net |= set(df.ip_address.dropna().apply(subnet))
@@ -53,7 +56,7 @@ def get_unique_subnets(offset, nfiles):
 
 
 s3_output_bucket = "jsaxon-cdac-unacast"
-s3_output_key    = "proc/subnets/{}.csv.gz"
+s3_output_key    = "ip/proc/subnets/{}.csv.gz"
 
 def write_subnets_df_to_s3(df, label):
 
