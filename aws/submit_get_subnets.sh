@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-script=get_ip.py
+script=get_subnets.py
 src="../src"
 
 s3_base=s3://jsaxon-cdac-unacast/ip/scripts
