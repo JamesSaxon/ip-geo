@@ -19,7 +19,7 @@ if "AWS_ACCESS_KEY_ID" not in os.environ:
 
 
 import argparse
-parser = argparse.argumentparser(description='label points in a video.')
+parser = argparse.ArgumentParser(description='Get Unique Subnets from File.')
 parser.add_argument("-s", "--skip", type = int, default = 0)
 parser.add_argument("-n", "--nfiles", type = int, default = 10)
 args = parser.parse_args()

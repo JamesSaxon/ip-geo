@@ -179,7 +179,7 @@ def supplement_fields(input_file, output_label):
 if __name__ == "__main__":
 
     import argparse
-    parser = argparse.argumentparser(description='label points in a video.')
+    parser = argparse.ArgumentParser(description='Append extra fields to GPS data.')
     parser.add_argument("-s", "--skip", type = int, default = 0)
     parser.add_argument("-n", "--nfiles", type = int, default = 10)
     args = parser.parse_args()
